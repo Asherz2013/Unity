@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
@@ -29,7 +28,3 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
-=======
-# This is a comment
-**/Library/**
->>>>>>> origin/master
