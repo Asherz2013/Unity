@@ -3,7 +3,22 @@ using System.Collections;
 
 public class Shooter : MonoBehaviour
 {
-    public GameObject Projectile, ProjectileParent, Gun;
+    public GameObject Projectile, Gun;
+
+    private GameObject ProjectileParent;
+
+    void Start()
+    {
+        // Check there is a "Projectiles" gameobject
+        ProjectileParent = GameObject.Find("Projectiles");
+
+        // If its null
+        if(!ProjectileParent)
+        {
+            // Create a new gameobject
+            ProjectileParent = new GameObject("Projectiles");
+        }
+    }
 
     private void Fire()
     {
