@@ -3,6 +3,17 @@ using System.Collections;
 
 public class Defender : MonoBehaviour
 {
-    // Only being used as a Tag for now!
-    // Should really change to an actual Tag
+    public int starCost = 100;
+
+    private StarDisplay starDisplay;
+
+    void Start()
+    {
+        starDisplay = FindObjectOfType<StarDisplay>();
+    }
+
+    public void AddStars(int amount)
+    {
+        starDisplay.AddStars(amount);
+    }
 }
