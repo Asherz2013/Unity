@@ -32,7 +32,7 @@ public class DefenderSpawner : MonoBehaviour
         }
         else
         {
-            Debug.Log("Insufficient stars to spawn!")
+            Debug.Log("Insufficient stars to spawn!");
         }
     }
 
