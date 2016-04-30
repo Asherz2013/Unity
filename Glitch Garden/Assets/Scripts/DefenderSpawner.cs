@@ -4,16 +4,16 @@ using System.Collections;
 public class DefenderSpawner : MonoBehaviour
 {
     public Camera myCamera;
-    private GameObject Parent;
+    private GameObject spawnerParent;
     private StarDisplay starDisplay;
 
     void Start()
     {
-        Parent = GameObject.Find("Defenders");
+        spawnerParent = GameObject.Find("Defenders");
 
-        if(!Parent)
+        if(!spawnerParent)
         {
-            Parent = new GameObject("Defenders");
+            spawnerParent = new GameObject("Defenders");
         }
 
         starDisplay = FindObjectOfType<StarDisplay>();
@@ -23,12 +23,13 @@ public class DefenderSpawner : MonoBehaviour
     {
         GameObject defender = Button.selectedDefender;
         int defenderCost = defender.GetComponent<Defender>().starCost;
+        
         if (starDisplay.UseStars(defenderCost) == StarDisplay.Status.SUCCESS)
         {
             Vector2 rawpos = CalculateWorldPointOfMouseClick();
             Vector2 roundedPos = SnapToGrid(rawpos);
-            defender = Instantiate(defender, roundedPos, Quaternion.identity) as GameObject;
-            defender.transform.parent = Parent.transform;
+            GameObject newdef = Instantiate(defender, roundedPos, Quaternion.identity) as GameObject;
+            newdef.transform.parent = spawnerParent.transform;
         }
         else
         {

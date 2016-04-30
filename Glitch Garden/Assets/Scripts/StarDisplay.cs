@@ -12,7 +12,8 @@ public class StarDisplay : MonoBehaviour
     
     void Start()
     {
-        starText = GetComponent<Text>();
+        starText = gameObject.GetComponent<Text>();
+        if (!starText) Debug.LogWarning("Missing Text Component on StarDisplay");
         UpdateDisplay();
     }
 

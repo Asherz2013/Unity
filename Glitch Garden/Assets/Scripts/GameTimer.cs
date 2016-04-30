@@ -20,7 +20,8 @@ public class GameTimer : MonoBehaviour
         levelManager = FindObjectOfType<LevelManager>();
 
         winLabel = GameObject.Find("You Win");
-        winLabel.SetActive(false);
+        if (winLabel) winLabel.SetActive(false);
+        else Debug.LogWarning("Can not find 'You Win' object");
     }
 
     // Update is called once per frame

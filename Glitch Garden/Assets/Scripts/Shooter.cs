@@ -29,10 +29,10 @@ public class Shooter : MonoBehaviour
     {
         if(isAttackerAHeadInLane())
         {
-            animator.SetBool("isAttacking", true);
+            animator.SetBool("IsAttacking", true);
             return;
         }
-        animator.SetBool("isAttacking", false);
+        animator.SetBool("IsAttacking", false);
     }
 
     // Look through all spawners, and set myLaneSpawner if found;
