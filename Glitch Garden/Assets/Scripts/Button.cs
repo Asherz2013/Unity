@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class Button : MonoBehaviour
@@ -8,12 +9,20 @@ public class Button : MonoBehaviour
     public static GameObject selectedDefender;
 
     private Button[] buttonArray;
+    private Text costText;
 
     // Use this for initialization
     void Start()
     {
         // Find all items that have a "Button" script
         buttonArray = FindObjectsOfType<Button>();
+
+        // Obtain the cost text which is a child of the button
+        costText = GetComponentInChildren<Text>();
+        // If we CAN'T find it then we should error
+        if(!costText) Debug.LogWarning(name + " has no cost text.");
+        // Find the prefab associated with this button. Find its "Defender" script and then the "Star Cost".
+        costText.text = defenderPrefab.GetComponent<Defender>().starCost.ToString();
     }
     
     void OnMouseDown()
