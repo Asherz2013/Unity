@@ -1,26 +1,41 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ball : MonoBehaviour
+public class Ball : MonoBehaviour
 {
+    public bool inPlay = false;
+
     private Rigidbody rigidBody;
     private AudioSource audioSource;
-
-    public Vector3 launchVelocity;
-
+    private Vector3 startPosition;
+    
     // Use this for initialization
     void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
-        rigidBody.velocity = launchVelocity;
-
         audioSource = GetComponent<AudioSource>();
-        audioSource.Play();
+
+        rigidBody.useGravity = false;
+
+        startPosition = transform.position;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Launch(Vector3 Velocity)
     {
+        rigidBody.velocity = Velocity;
+        audioSource.Play();
 
+        rigidBody.useGravity = true;
+
+        inPlay = true;
+    }
+
+    public void Reset()
+    {
+        inPlay = false;
+        transform.position = startPosition;
+        rigidBody.velocity = Vector3.zero;
+        rigidBody.angularVelocity = Vector3.zero;
+        rigidBody.useGravity = false;
     }
 }
