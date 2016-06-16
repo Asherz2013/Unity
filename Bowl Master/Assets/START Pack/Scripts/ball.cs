@@ -22,12 +22,12 @@ public class Ball : MonoBehaviour
 
     public void Launch(Vector3 Velocity)
     {
-        rigidBody.velocity = Velocity;
-        audioSource.Play();
+        inPlay = true;
 
         rigidBody.useGravity = true;
+        rigidBody.velocity = Velocity;
 
-        inPlay = true;
+        audioSource.Play();
     }
 
     public void Reset()

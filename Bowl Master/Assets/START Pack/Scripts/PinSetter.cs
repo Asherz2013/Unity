@@ -4,12 +4,13 @@ using System.Collections;
 
 public class PinSetter : MonoBehaviour
 {
-    public Text standingDisplay;
     public int lastStandingCount = -1;
+    public Text standingDisplay;
+    public GameObject pinSet;
 
     private Ball ball;
-    private bool ballEnteredBox = false;
     private float lastChangeTime;
+    private bool ballEnteredBox = false;
     
     void Start()
     {
@@ -21,11 +22,33 @@ public class PinSetter : MonoBehaviour
         standingDisplay.text = CountStanding().ToString();
         if (ballEnteredBox)
         {
-            CheckStanding();
+            UpdateStandingCountAndSettle();
         }
     }
 
-    void CheckStanding()
+    public void RaisePins()
+    {
+        foreach (Pin pin in GameObject.FindObjectsOfType<Pin>())
+        {
+            pin.RaiseifStanding();
+        }
+    }
+
+    public void LowerPins()
+    {
+        foreach (Pin pin in GameObject.FindObjectsOfType<Pin>())
+        {
+            pin.Lower();
+        }
+    }
+
+    public void RenewPins()
+    {
+        GameObject newPins = Instantiate(pinSet);
+        newPins.transform.position += new Vector3(0, 20, 0);
+    }
+
+    void UpdateStandingCountAndSettle()
     {
         int currentStanding = CountStanding();
 
@@ -37,7 +60,6 @@ public class PinSetter : MonoBehaviour
         }
 
         float settleTime = 3f;
-
         if((Time.time - lastChangeTime) > settleTime)
         {
             PinsHaveSettled();
@@ -46,11 +68,10 @@ public class PinSetter : MonoBehaviour
 
     void PinsHaveSettled()
     {
-        standingDisplay.color = Color.green;
+        ball.Reset();
         lastStandingCount = -1;
         ballEnteredBox = false;
-
-        ball.Reset();
+        standingDisplay.color = Color.green;
     }
 
     int CountStanding()
@@ -64,8 +85,15 @@ public class PinSetter : MonoBehaviour
                 standing++;
             }
         }
-
         return standing;
+    }
+
+    void OnTriggerExit(Collider collider)
+    {
+        if (collider.gameObject.GetComponent<Pin>())
+        {
+            Destroy(collider.gameObject);
+        }
     }
 
     void OnTriggerEnter(Collider collider)
@@ -74,14 +102,6 @@ public class PinSetter : MonoBehaviour
         {
             ballEnteredBox = true;
             standingDisplay.color = Color.red;
-        }
-    }
-
-    void OnTriggerExit(Collider collider)
-    {
-        if(collider.gameObject.GetComponent<Pin>())
-        {
-            Destroy(collider);
         }
     }
 }
