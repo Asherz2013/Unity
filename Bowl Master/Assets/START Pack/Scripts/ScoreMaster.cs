@@ -1,0 +1,15 @@
+﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+
+public class Game_Manager
+{
+    public static List<int> ScoreFrames (List<int> rolls)
+    {
+        List<int> frameList = new List<int>();
+
+
+
+        return frameList;
+    }
+}
