@@ -6,12 +6,9 @@ public class PinSetter : MonoBehaviour
 {
     public GameObject pinSet;
     
-    private Ball ball;
     private Animator animator;
     private PinCounter pinCounter;
-
-    private ActionMaster actionmaster = new ActionMaster();
-
+    
     void Start()
     {
         animator = GetComponent<Animator>();

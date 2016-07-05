@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
@@ -9,19 +8,23 @@ public class GameManager : MonoBehaviour
     private PinSetter pinSetter;
     private Ball ball;
 
+    private ScoreDisplay scoreDisplay;
+
     // Use this for initialization
     void Start()
     {
         pinSetter = FindObjectOfType<PinSetter>();
         ball = FindObjectOfType<Ball>();
+        scoreDisplay = GameObject.FindObjectOfType<ScoreDisplay>();
     }
 
     public void Bowl (int pinFall)
     {
         bowls.Add(pinFall);
-
-        ActionMaster.Action nextAction = ActionMaster.NextAction(bowls);
-        pinSetter.PerformAction(nextAction);
         ball.Reset();
+        
+        pinSetter.PerformAction(ActionMaster.NextAction(bowls));
+
+        scoreDisplay.FillRollCard(bowls);
     }
 }
