@@ -10,63 +10,65 @@ public class Player : MonoBehaviour
     // Variable for Jump Force
     [SerializeField]
     private float _jumpForce = 5.0f;
-    // Variable for grounded = false
-    private bool _grounded = false;
+
     [SerializeField]
     private LayerMask _groundLayer;
 
-    private bool _resetJumpNeeded = false;
+    [SerializeField]
+    private float _moveSpeed = 3.0f;
+
+    // Handle to Player Animation
+    private PlayerAnimation _playerAnim;
+
+    // Handle to Sprite Renderer
+    private SpriteRenderer _playerSprite;
 
     // Use this for initialization
     void Start()
     {
         // assign the handle of rigidbody
         _rigid = GetComponent<Rigidbody2D>();
+
+        // Assign the handle to Player Animation
+        _playerAnim = GetComponent<PlayerAnimation>();
+
+        _playerSprite = GetComponentInChildren<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update()
+    {
+        Movement();
+    }
+
+    void Movement()
     {
         // Horizontal input for Left/Right
         // "Raw" input is a constent number between -1, 0, 1
         // Normal GetAxis will do a gradual increase -1, -0.9, -0.8, -0.7, etc
         float move = Input.GetAxisRaw("Horizontal");
 
+        // Determine which way the sprite should be facing
+        if (move > 0) _playerSprite.flipX = false;
+        else if (move < 0) _playerSprite.flipX = true;
 
-
-
-        // If Space Key && grounded == true
-        if (Input.GetKeyDown(KeyCode.Space) && _grounded == true)
+        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
         {
-            // current velocity = new velocity ( x, jumpforce)
             _rigid.velocity = new Vector2(_rigid.velocity.x, _jumpForce);
-            _grounded = false;
-            //breath
-            _resetJumpNeeded = true;
-            StartCoroutine(ResetJumpNeededRoutine());
         }
 
-        // 2D raycast to the ground
-        RaycastHit2D hitinfo = Physics2D.Raycast(transform.position, Vector2.down, 0.6f, _groundLayer.value);
-        Debug.DrawRay(transform.position, Vector2.down * 0.6f, Color.red);
+        _rigid.velocity = new Vector2(move * _moveSpeed, _rigid.velocity.y);
 
-        // If hitinfo != null
-        if (hitinfo.collider != null)
-        {
-            Debug.Log("Hit: " + hitinfo.collider.name);
-            // grounded = true
-            if(_resetJumpNeeded == false) _grounded = true;
-        }
-
-
-
-        // current velocity = new velocity (x, current velocity.y);
-        _rigid.velocity = new Vector2(move, _rigid.velocity.y);
+        _playerAnim.Move(move);
     }
 
-    IEnumerator ResetJumpNeededRoutine()
+    bool IsGrounded()
     {
-        yield return new WaitForSeconds(0.1f);
-        _resetJumpNeeded = false;
+        RaycastHit2D HitInfo = Physics2D.Raycast(transform.position, Vector2.down, 0.6f, _groundLayer);
+        if (HitInfo.collider != null)
+        {
+            return true;
+        }
+        return false;
     }
 }
