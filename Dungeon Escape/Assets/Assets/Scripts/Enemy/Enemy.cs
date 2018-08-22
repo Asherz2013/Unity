@@ -13,6 +13,9 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField]
     protected int gems;
 
+    [SerializeField]
+    protected Transform PointA, pointB;
+
     public virtual void Attack()
     {
         Debug.Log("My name is:" + gameObject.name);
