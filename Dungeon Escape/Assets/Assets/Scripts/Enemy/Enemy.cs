@@ -14,7 +14,7 @@ public abstract class Enemy : MonoBehaviour
     protected int gems;
 
     [SerializeField]
-    protected Transform PointA, pointB;
+    protected Transform PointA, PointB;
 
     public virtual void Attack()
     {
