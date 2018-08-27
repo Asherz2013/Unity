@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDamagable
 {
     // Get Handle to rigidbody
     private Rigidbody2D _rigid = null;
@@ -26,6 +26,11 @@ public class Player : MonoBehaviour
 
     private bool _grounded = false;
 
+    [SerializeField]
+    private int _health = 100;
+    // Comes from the IDamage Interface
+    public int Health { get; set; }
+
     // Use this for initialization
     void Start()
     {
@@ -38,6 +43,8 @@ public class Player : MonoBehaviour
         // Assign the Handle to Sprite Renderer
         _playerSprite = GetComponentInChildren<SpriteRenderer>();
         _swordArcSprite = transform.GetChild(1).GetComponent<SpriteRenderer>();
+
+        Health = _health;
     }
 
     // Update is called once per frame
@@ -81,7 +88,7 @@ public class Player : MonoBehaviour
             _swordArcSprite.transform.localPosition = newPos;
         }
 
-        
+
         if (Input.GetKeyDown(KeyCode.Space) && _grounded)
         {
             _rigid.velocity = new Vector2(_rigid.velocity.x, _jumpForce);
@@ -102,5 +109,16 @@ public class Player : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    // Comes from the IDamage Interface
+    public void Damage()
+    {
+        Health--;
+
+        if(Health < 0)
+        {
+            // DEAD!
+        }
     }
 }
