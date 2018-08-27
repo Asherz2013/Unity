@@ -73,6 +73,14 @@ public abstract class Enemy : MonoBehaviour
             isHit = false;
             anim.SetBool("InCombat", false);
         }
+
+        // FLip to face the player if we are in "combat mode"
+        if (isHit)
+        {
+            Vector3 direction = player.transform.localPosition - transform.localPosition;
+            if (direction.x > 0) sprite.flipX = false;
+            else sprite.flipX = true;
+        }
     }
 
 }
