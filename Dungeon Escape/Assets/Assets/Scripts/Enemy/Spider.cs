@@ -14,6 +14,11 @@ public class Spider : Enemy, IDamagable
         Health = health;
     }
 
+    public override void Movement()
+    {
+        // DO nothing and Sit still
+    }
+
     public void Damage()
     {
 
