@@ -4,6 +4,8 @@ using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour
 {
+    public GameObject gemPrefab;
+
     [SerializeField]
     protected int health;
 
@@ -15,7 +17,7 @@ public abstract class Enemy : MonoBehaviour
 
     [SerializeField]
     protected Transform PointA, PointB;
-
+    
     protected Vector3 currentTarget;
     protected Animator anim;
     protected SpriteRenderer sprite;
@@ -24,6 +26,8 @@ public abstract class Enemy : MonoBehaviour
 
     //variable to store the "Player" position
     protected Player player;
+
+    protected bool isDead = false;
 
     // Initialisation Script
     public virtual void Init()
@@ -46,7 +50,7 @@ public abstract class Enemy : MonoBehaviour
         AnimatorStateInfo animStatInfo = anim.GetCurrentAnimatorStateInfo(0);
         if (animStatInfo.IsName("Idle") && !anim.GetBool("InCombat")) return;
 
-        Movement();
+        if(!isDead) Movement();
     }
 
     // Movement code - Shared with all Children :)

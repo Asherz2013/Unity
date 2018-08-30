@@ -26,6 +26,9 @@ public class Player : MonoBehaviour, IDamagable
 
     private bool _grounded = false;
 
+    // Var for amount of Diamonds
+    public int _diamondCount = 0;
+
     [SerializeField]
     private int _health = 100;
     // Comes from the IDamage Interface
@@ -116,9 +119,10 @@ public class Player : MonoBehaviour, IDamagable
     {
         Health--;
 
-        if(Health < 0)
+        if(Health < 1)
         {
             // DEAD!
+            _playerAnim.Death();
         }
     }
 }

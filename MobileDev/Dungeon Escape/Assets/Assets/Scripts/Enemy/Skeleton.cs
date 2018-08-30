@@ -16,6 +16,8 @@ public class Skeleton : Enemy, IDamagable
 
     public void Damage()
     {
+        if (isDead) return;
+
         Health--;
 
         anim.SetTrigger("Hit");
@@ -24,7 +26,16 @@ public class Skeleton : Enemy, IDamagable
 
         if (Health < 1)
         {
-            Destroy(gameObject);
+            isDead = true;
+            anim.SetTrigger("Death");
+
+            // Spawn a Diamond
+            GameObject gem = Instantiate(gemPrefab, transform.position, Quaternion.identity) as GameObject;
+            Diamond diamond = gem.GetComponent<Diamond>();
+            if (diamond)
+            {
+                diamond._diamondsToAdd = gems;
+            }
         }
     }
 }
