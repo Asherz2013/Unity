@@ -21,6 +21,7 @@ public class UIManager : MonoBehaviour
     #endregion
 
     public Text playerGemCountText;
+    public Image selectionImg;
 
     private void Awake()
     {
@@ -30,5 +31,10 @@ public class UIManager : MonoBehaviour
     public void OpenShop(int gemCount)
     {
         playerGemCountText.text = gemCount + "G";
+    }
+
+    public void UpdateShopSelection(int posY)
+    {
+        selectionImg.rectTransform.anchoredPosition = new Vector3(selectionImg.rectTransform.anchoredPosition.x, posY);
     }
 }
