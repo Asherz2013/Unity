@@ -72,7 +72,7 @@ public abstract class Enemy : MonoBehaviour
         }
 
         if (isHit == false) transform.position = Vector3.MoveTowards(transform.position, currentTarget, speed * Time.deltaTime);
-        else if (Vector3.Distance(transform.localPosition, player.transform.localPosition) > 2.0f)
+        else if (Vector3.Distance(transform.localPosition, player.transform.localPosition) > 2.0f || player.IsDead == true)
         {
             isHit = false;
             anim.SetBool("InCombat", false);

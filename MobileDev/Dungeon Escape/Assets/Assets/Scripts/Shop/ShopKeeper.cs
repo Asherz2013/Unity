@@ -59,6 +59,19 @@ public class ShopKeeper : MonoBehaviour
         if (player._diamondCount >= currentItemCost)
         {
             // if it is then award item
+            switch (currentSelectedItem)
+            {
+                default:
+                    break;
+
+                case 1:
+                    break;
+
+                case 2:
+                    GameManager.Instance.HasKeyToCastle = true;
+                    break;
+            }
+
             player._diamondCount -= currentItemCost;
         }
         else

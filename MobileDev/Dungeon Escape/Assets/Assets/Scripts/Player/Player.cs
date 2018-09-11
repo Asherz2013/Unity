@@ -29,8 +29,13 @@ public class Player : MonoBehaviour, IDamagable
     // Var for amount of Diamonds
     public int _diamondCount = 0;
 
-    [SerializeField]
-    private int _health = 100;
+    // Is the playe dead?
+    private bool _isDead = false;
+    public bool IsDead
+    {
+        get { return _isDead; }
+    }
+
     // Comes from the IDamage Interface
     public int Health { get; set; }
 
@@ -47,7 +52,7 @@ public class Player : MonoBehaviour, IDamagable
         _playerSprite = GetComponentInChildren<SpriteRenderer>();
         _swordArcSprite = transform.GetChild(1).GetComponent<SpriteRenderer>();
 
-        Health = _health;
+        Health = 4;
     }
 
     // Update is called once per frame
@@ -117,12 +122,24 @@ public class Player : MonoBehaviour, IDamagable
     // Comes from the IDamage Interface
     public void Damage()
     {
+        if (_isDead) return;
+
         Health--;
 
-        if(Health < 1)
+        // Update the UI Display
+        UIManager.Instance.UpdateLives(Health);
+
+        if (Health < 1)
         {
             // DEAD!
             _playerAnim.Death();
+            _isDead = true;
         }
+    }
+
+    public void AddGems(int amount)
+    {
+        _diamondCount += amount;
+        UIManager.Instance.UpdateGemCount(_diamondCount);
     }
 }

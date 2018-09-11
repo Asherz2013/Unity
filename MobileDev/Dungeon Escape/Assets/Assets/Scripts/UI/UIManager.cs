@@ -18,15 +18,18 @@ public class UIManager : MonoBehaviour
             return _instance;
         }
     }
-    #endregion
-
-    public Text playerGemCountText;
-    public Image selectionImg;
 
     private void Awake()
     {
         _instance = this;
     }
+    #endregion
+
+    public Text playerGemCountText;
+    public Image selectionImg;
+    public Text GemCountText;
+
+    public Image[] LiveUnits;
 
     public void OpenShop(int gemCount)
     {
@@ -36,5 +39,25 @@ public class UIManager : MonoBehaviour
     public void UpdateShopSelection(int posY)
     {
         selectionImg.rectTransform.anchoredPosition = new Vector3(selectionImg.rectTransform.anchoredPosition.x, posY);
+    }
+
+    public void UpdateGemCount(int count)
+    {
+        GemCountText.text = "" + count;
+    }
+
+    public void UpdateLives(int livesRemaining)
+    {
+        // Loop through "LiveUnits"
+        for (int i = 0; i < LiveUnits.Length; i++)
+        {
+            // If i == livesRemaining
+            if(i == livesRemaining)
+            {
+                // Hide it.
+                LiveUnits[i].enabled = false;
+            }
+
+        }
     }
 }
