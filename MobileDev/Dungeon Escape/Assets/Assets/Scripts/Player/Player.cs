@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.CrossPlatformInput;
 
 public class Player : MonoBehaviour, IDamagable
 {
@@ -60,7 +61,7 @@ public class Player : MonoBehaviour, IDamagable
     {
         Movement();
 
-        if (Input.GetButtonDown("Fire1") && IsGrounded())
+        if (CrossPlatformInputManager.GetButtonDown("A_Button") && IsGrounded())
         {
             _playerAnim.Attack();
         }
@@ -72,7 +73,7 @@ public class Player : MonoBehaviour, IDamagable
         // Horizontal input for Left/Right
         // "Raw" input is a constent number between -1, 0, 1
         // Normal GetAxis will do a gradual increase -1, -0.9, -0.8, -0.7, etc
-        float move = Input.GetAxisRaw("Horizontal");
+        float move =CrossPlatformInputManager.GetAxisRaw("Horizontal");
 
         _grounded = IsGrounded();
 
@@ -97,7 +98,7 @@ public class Player : MonoBehaviour, IDamagable
         }
 
 
-        if (Input.GetKeyDown(KeyCode.Space) && _grounded)
+        if ((Input.GetKeyDown(KeyCode.Space) || CrossPlatformInputManager.GetButtonDown("B_Button")) && _grounded)
         {
             _rigid.velocity = new Vector2(_rigid.velocity.x, _jumpForce);
             _playerAnim.Jump(true);
