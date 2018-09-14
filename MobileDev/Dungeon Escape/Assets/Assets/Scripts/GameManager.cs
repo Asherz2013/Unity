@@ -22,8 +22,11 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         _instance = this;
+        Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
     #endregion
 
     public bool HasKeyToCastle { get; set; }
+
+    public Player Player { get; private set; }
 }
