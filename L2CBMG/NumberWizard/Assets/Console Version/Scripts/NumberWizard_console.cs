@@ -1,21 +1,22 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class NumberWizard : MonoBehaviour {
-    
+public class NumberWizard : MonoBehaviour
+{
+
     int max;
     int min;
     int guess;
 
     // Use this for initialization
-    void Start ()
+    void Start()
     {
         StartGame();
     }
-	
-	// Update is called once per frame
-	void Update () {
-	    if(Input.GetKeyDown(KeyCode.UpArrow))
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             min = guess;
             NextGuess();
