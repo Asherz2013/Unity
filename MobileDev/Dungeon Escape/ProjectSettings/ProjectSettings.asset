@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: MonkeyHeadStudios
+  companyName: MonkeyHeadStudioz
   productName: Dungeon Escape
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -151,7 +151,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.MonkeyHeadStudios.Dungeon_Escape
+    Android: com.MonkeyHeadStudioz.Dungeon_Escape
     Standalone: com.Company.ProductName
   buildNumber: {}
   AndroidBundleVersionCode: 1
