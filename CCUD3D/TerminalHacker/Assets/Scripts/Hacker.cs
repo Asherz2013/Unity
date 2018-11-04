@@ -2,6 +2,12 @@
 
 public class Hacker : MonoBehaviour
 {
+    // Game Configuration data
+    string menuHint = "You may type 'menu' at any time.");
+    //string[,] levelPasswords = { { "books", "aisle", "self", "password", "font", "borrow" }, { "prisoner", "handcuffs", "holster", "uniform", "arrest" } };
+    string[] level1Passwords = { "books", "aisle", "shelf", "password", "font", "borrow" };
+    string[] level2Passwords = { "prisoner", "handcuffs", "holster", "uniform", "arrest" };
+
     // Game State
     int level;
     enum Screen { MainMenu, Password, Win };
@@ -12,6 +18,7 @@ public class Hacker : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        print(level1Passwords.Length);
         ShowMainMenu();
     }
 
@@ -52,46 +59,97 @@ public class Hacker : MonoBehaviour
 
     void RunMainMenu(string input)
     {
-        // Print will evaluate to a boolean based on expression
-        //print(input == "1");
-        if (input == "007")
+        bool isValidLevelNumber = (input == "1" || input == "2");
+        if (isValidLevelNumber)
+        {
+            level = int.Parse(input);
+            StartGame();
+        }
+        else if (input == "007")
         {
             Terminal.WriteLine("Please select a level Mr. Bond!");
-        }
-        else if (input == "1")
-        {
-            level = 1;
-            password = "donkey";
-            StartGame();
-        }
-        else if (input == "2")
-        {
-            level = 2;
-            password = "password";
-            StartGame();
         }
         else
         {
             Terminal.WriteLine("Please choose a valid level.");
+            Terminal.WriteLine(menuHint);
         }
     }
 
     void StartGame()
     {
         currentScreen = Screen.Password;
-        Terminal.WriteLine("You have choosen " + level);
-        Terminal.WriteLine("Please enter your password: ");
+        Terminal.ClearScreen();
+        SetRandomPassword();
+        Terminal.WriteLine("Enter your password, hint: " + password.Anagram());
+        Terminal.WriteLine(menuHint);
+    }
+
+    void SetRandomPassword()
+    {
+        switch (level)
+        {
+            case 1:
+                password = level1Passwords[Random.Range(0, level1Passwords.Length)];
+                break;
+
+            case 2:
+                password = level2Passwords[Random.Range(0, level2Passwords.Length)];
+                break;
+
+            default:
+                Debug.LogError("Invalid Level Number! " + level);
+                break;
+        }
     }
 
     void RunPasswordCracker(string input)
     {
         if (input == password)
         {
-            Terminal.WriteLine("Congratulations this is correct.");
+            DisplayWinScreen();
         }
         else
         {
             Terminal.WriteLine("Sorry Wrong Password!");
+            StartGame();
         }
+    }
+
+    void DisplayWinScreen()
+    {
+        currentScreen = Screen.Win;
+        Terminal.ClearScreen();
+        ShowLevelReward();
+        Terminal.WriteLine(menuHint);
+    }
+
+    void ShowLevelReward()
+    {
+        switch (level)
+        {
+            case 1:
+                Terminal.WriteLine("Have a book...");
+                Terminal.WriteLine(@"
+    _______
+   /      //
+  /      // 
+ /______//                
+(______(/
+                ");
+                break;
+            case 2:
+                Terminal.WriteLine("You got the prison key!");
+                Terminal.WriteLine(@"
+ __
+/0 \_______
+\__/-=' = '
+                ");
+                break;
+            default:
+                Debug.LogError("Invalid Level Reached! " + level);
+                break;
+        }
+        
     }
 }
