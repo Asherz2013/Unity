@@ -3,10 +3,10 @@
 public class Hacker : MonoBehaviour
 {
     // Game Configuration data
-    string menuHint = "You may type 'menu' at any time.");
-    //string[,] levelPasswords = { { "books", "aisle", "self", "password", "font", "borrow" }, { "prisoner", "handcuffs", "holster", "uniform", "arrest" } };
+    const string menuHint = "You may type 'menu' at any time.";
     string[] level1Passwords = { "books", "aisle", "shelf", "password", "font", "borrow" };
     string[] level2Passwords = { "prisoner", "handcuffs", "holster", "uniform", "arrest" };
+    string[] level3Passwords = { "rabbit", "cow", "chicken", "farmer" };
 
     // Game State
     int level;
@@ -29,6 +29,7 @@ public class Hacker : MonoBehaviour
         Terminal.WriteLine("What would you like to hack into?");
         Terminal.WriteLine("Press 1 for the Local Library");
         Terminal.WriteLine("Press 2 for the Police Station");
+        Terminal.WriteLine("Press 3 for the Farm");
         Terminal.WriteLine("Enter your selection:");
     }
 
@@ -59,7 +60,7 @@ public class Hacker : MonoBehaviour
 
     void RunMainMenu(string input)
     {
-        bool isValidLevelNumber = (input == "1" || input == "2");
+        bool isValidLevelNumber = (input == "1" || input == "2" || input == "3");
         if (isValidLevelNumber)
         {
             level = int.Parse(input);
@@ -95,6 +96,10 @@ public class Hacker : MonoBehaviour
 
             case 2:
                 password = level2Passwords[Random.Range(0, level2Passwords.Length)];
+                break;
+
+            case 3:
+                password = level3Passwords[Random.Range(0, level3Passwords.Length)];
                 break;
 
             default:
@@ -144,6 +149,14 @@ public class Hacker : MonoBehaviour
  __
 /0 \_______
 \__/-=' = '
+                ");
+                break;
+            case 3:
+                Terminal.WriteLine("You got the rabbit!");
+                Terminal.WriteLine(@"
+(\(\
+(-.-)
+o_(`)(`)
                 ");
                 break;
             default:
