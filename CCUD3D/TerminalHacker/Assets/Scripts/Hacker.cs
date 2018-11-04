@@ -40,6 +40,11 @@ public class Hacker : MonoBehaviour
         {
             ShowMainMenu();
         }
+        else if(input == "quit" || input == "close" || input == "exit")
+        {
+            Terminal.WriteLine("If on the web version please close the tab.");
+            Application.Quit();
+        }
         else
         {
             switch (currentScreen)
@@ -163,6 +168,5 @@ o_(`)(`)
                 Debug.LogError("Invalid Level Reached! " + level);
                 break;
         }
-        
     }
 }
