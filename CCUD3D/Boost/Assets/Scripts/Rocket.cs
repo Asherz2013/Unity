@@ -1,14 +1,29 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-[RequireComponent(typeof(Rigidbody),typeof(AudioSource))]
+[RequireComponent(typeof(Rigidbody), typeof(AudioSource))]
 public class Rocket : MonoBehaviour
 {
-    Rigidbody rigidBody;
-    AudioSource audioSource;
+    // Public Vars
+    [SerializeField] float levelLoadDelay = 2f;
 
     [SerializeField] float thrustAmount = 50f;
     [SerializeField] float rotationSpeed = 250f;
+
+    [SerializeField] AudioClip mainEngine;
+    [SerializeField] AudioClip success;
+    [SerializeField] AudioClip death;
+
+    [SerializeField] ParticleSystem mainEngineParticles;
+    [SerializeField] ParticleSystem successParticles;
+    [SerializeField] ParticleSystem deathParticles;
+
+    // Private Vars
+    Rigidbody rigidBody;
+    AudioSource audioSource;
+
+    enum State { Alive, Dying, Transcending }
+    State state = State.Alive;
 
     // Use this for initialization
     void Start()
@@ -20,38 +35,74 @@ public class Rocket : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Thrust();
-        Rotate();
+        if (state == State.Alive)
+        {
+            RespondToThrustInput();
+            RespondToRotateInput();
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        switch(collision.gameObject.tag)
+        if (state != State.Alive) return;
+
+        switch (collision.gameObject.tag)
         {
             case "Friendly":
                 // Do Nothing :)
                 break;
             case "Finish":
-                // Player has landed on the "Ending Stip"
-                SceneManager.LoadScene(1);
+                StartSuccessSequence();
                 break;
             default:
-                // You WILL BE DEAD
-                SceneManager.LoadScene(0);
+                StartDeathSequence();
                 break;
         }
     }
 
-    private void Thrust()
+    private void StartSuccessSequence()
+    {
+        // Player has landed on the "Ending Strip"
+        state = State.Transcending;
+        audioSource.Stop();
+        audioSource.PlayOneShot(success);
+        successParticles.Play();
+        Invoke("LoadNextLevel", levelLoadDelay);
+    }
+
+    private void StartDeathSequence()
+    {
+        // You WILL BE DEAD
+        state = State.Dying;
+        audioSource.Stop();
+        audioSource.PlayOneShot(death);
+        deathParticles.Play();
+        Invoke("LoadFirstLevel", levelLoadDelay);
+    }
+
+    private void LoadFirstLevel()
+    {
+        SceneManager.LoadScene(0);
+        state = State.Alive;
+    }
+
+    private void LoadNextLevel()
+    {
+        SceneManager.LoadScene(1);
+        state = State.Alive;
+    }
+
+    private void RespondToThrustInput()
     {
         // Thrusting
         if (Input.GetKey(KeyCode.Space))
         {
-            rigidBody.AddRelativeForce(Vector3.up * thrustAmount);
+            rigidBody.AddRelativeForce(Vector3.up * thrustAmount * Time.deltaTime);
             if (!audioSource.isPlaying)
             {
-                audioSource.Play();
+                audioSource.PlayOneShot(mainEngine);
             }
+            mainEngineParticles.Play();
         }
         else
         {
@@ -59,10 +110,11 @@ public class Rocket : MonoBehaviour
             {
                 audioSource.Stop();
             }
+            mainEngineParticles.Stop();
         }
     }
 
-    private void Rotate()
+    private void RespondToRotateInput()
     {
         rigidBody.freezeRotation = true; // Take Manual control of Rotation
 
