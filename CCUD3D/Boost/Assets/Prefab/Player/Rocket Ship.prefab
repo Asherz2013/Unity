@@ -601,8 +601,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelLoadDelay: 2
-  thrustAmount: 1050
-  rotationSpeed: 250
+  thrustAmount: 2000
+  rotationSpeed: 300
   mainEngine: {fileID: 8300000, guid: 541848db484cfd94a8b3eb00221fc917, type: 3}
   success: {fileID: 8300000, guid: 84f46d4eb8403ad43bd806e8b6af81f8, type: 3}
   death: {fileID: 8300000, guid: 6c0b57f2ba248e04bb335849d1e96a28, type: 3}
